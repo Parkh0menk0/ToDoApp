@@ -6,11 +6,19 @@ import SearchPanel from "./components/search-panel.js";
 import TodoList from "./components/todo-list.js";
 
 const App = () => {
+
+  const todoData = [
+    {label: "Drink Cofee", important: false, id: 1},
+    {label: "Make awesome App", important: true, id: 2},
+    {label: "Have a lunch", important: false, id: 3},
+    {label: "Learn React", important: true, id: 4},
+  ];
+
   return (
     <div>
       <AppHeader />
       <SearchPanel />
-      <TodoList />
+      <TodoList todos={todoData} />
     </div>
   );
 };

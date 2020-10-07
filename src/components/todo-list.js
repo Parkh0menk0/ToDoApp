@@ -2,11 +2,10 @@ import React from "react";
 
 import TodoListItem from "./todo-list-item.js"
 
-const TodoList = () => {
+const TodoList = (prop) => {
   return (
     <ul>
-      <li><TodoListItem label="Drink Cofee" /></li>
-      <li><TodoListItem label="Learn React" important /></li>
+      {prop.todos.map(element => <li key={element.id}><TodoListItem label={element.label} important={element.important} /></li>)}
     </ul>
   );
 };
