@@ -7,7 +7,8 @@ export default class TodoListItem extends Component {
     super();
 
     this.state = {
-      done: false
+      done: false,
+      important: false
     }
 
     this.onLabelClick = () => {
@@ -15,16 +16,26 @@ export default class TodoListItem extends Component {
         done: true
       });
     };
+
+    this.onImportantClick = () => {
+      this.setState({
+        important: true
+      });
+    };
   }
 
   render() {
-    const { label, important = false } = this.props;
-    const { done } = this.state;
+    const { label } = this.props;
+    const { done, important } = this.state;
 
     let itemClassName = "todo-list-item";
 
     if (done) {
       itemClassName += " done";
+    }
+
+    if (important) {
+      itemClassName += " important";
     }
 
     const style = {
@@ -41,6 +52,7 @@ export default class TodoListItem extends Component {
         <button
           type="button"
           className="btn btn-outline-success btn-sm float-right"
+          onClick={this.onImportantClick}
         >
           <i className="fa fa-exclamation" />
         </button>
