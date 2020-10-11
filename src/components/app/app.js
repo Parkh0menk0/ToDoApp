@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { nanoid } from 'nanoid';
+import { nanoid } from "nanoid";
 
 import AppHeader from "../app-header/app-header";
 import SearchPanel from "../search-panel/search-panel";
@@ -18,16 +18,16 @@ export default class App extends Component {
         label: label,
         done: false,
         important: false,
-        id: nanoid()
-      }
+        id: nanoid(),
+      };
     };
 
     this.state = {
       todoData: [
         this.createItem("Drink Coffee"),
         this.createItem("Make Awesome App"),
-        this.createItem("Have a lunch")
-      ]
+        this.createItem("Have a lunch"),
+      ],
     };
 
     this.deleteItem = (id) => {
@@ -38,7 +38,7 @@ export default class App extends Component {
           ...todoData.slice(index + 1),
         ];
         return {
-          todoData: updated
+          todoData: updated,
         };
       });
     };
@@ -46,7 +46,7 @@ export default class App extends Component {
     this.addItem = (text) => {
       this.setState(({ todoData }) => {
         return {
-          todoData: [...todoData, this.createItem(text)]
+          todoData: [...todoData, this.createItem(text)],
         };
       });
     };
@@ -55,39 +55,44 @@ export default class App extends Component {
       this.setState(({ todoData }) => {
         const index = todoData.findIndex((el) => el.id === id);
         const oldItem = todoData[index];
-        const newItem = {...oldItem, done: !oldItem.done};
+        const newItem = { ...oldItem, done: !oldItem.done };
 
         return {
           todoData: [
             ...todoData.slice(0, index),
             newItem,
-            ...todoData.slice(index + 1)
-          ]
-        }
+            ...todoData.slice(index + 1),
+          ],
+        };
       });
-    }
+    };
 
     this.onImportantToggle = (id) => {
       this.setState(({ todoData }) => {
         const index = todoData.findIndex((el) => el.id === id);
         const oldItem = todoData[index];
-        const newItem = {...oldItem, important: !oldItem.important};
-        
+        const newItem = { ...oldItem, important: !oldItem.important };
+
         return {
           todoData: [
             ...todoData.slice(0, index),
             newItem,
-            ...todoData.slice(index + 1)
-          ]
-        }
+            ...todoData.slice(index + 1),
+          ],
+        };
       });
-    }
+    };
   }
 
   render() {
+    const { todoData } = this.state;
+
+    const toDoCount = todoData.filter((item) => !item.done).length;
+    const doneCount = todoData.filter((item) => item.done).length;
+
     return (
       <div className="todo-app">
-        <AppHeader toDo={1} done={3} />
+        <AppHeader toDo={toDoCount} done={doneCount} />
 
         <div className="top-panel d-flex">
           <SearchPanel />
@@ -95,7 +100,7 @@ export default class App extends Component {
         </div>
 
         <TodoList
-          todos={this.state.todoData}
+          todos={todoData}
           onDeleteHandle={this.deleteItem}
           onDoneToggle={this.onDoneToggle}
           onImportantToggle={this.onImportantToggle}
