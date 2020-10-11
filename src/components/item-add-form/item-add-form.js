@@ -5,10 +5,11 @@ import "./item-add-form.css";
 export default class ItemAddForm extends Component {
 
   render() {
+    const { addItem } = this.props;
 
     return (
       <div className="item-add-form">
-        <button className="btn btn-outline-secondary" type="button">Add item</button>
+        <button className="btn btn-outline-secondary" type="button" onClick={() => addItem("Hello!")}>Add item</button>
       </div>
     );
   }

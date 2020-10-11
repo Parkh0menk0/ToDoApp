@@ -11,6 +11,8 @@ export default class App extends Component {
   constructor() {
     super();
 
+    this.generateId = 100;
+
     this.state = {
       todoData: [
         { label: "Drink Coffee", important: false, id: 1 },
@@ -27,7 +29,22 @@ export default class App extends Component {
           ...todoData.slice(index + 1),
         ];
         return {
-          todoData: updated,
+          todoData: updated
+        };
+      });
+    };
+
+    this.addItem = (text) => {
+      this.setState(({ todoData }) => {
+        return {
+          todoData: [
+            ...todoData,
+            {
+              label: text,
+              important: false,
+              id: this.generateId++
+            }
+          ]
         };
       });
     };
@@ -48,7 +65,7 @@ export default class App extends Component {
           onDeleteHandle={this.deleteItem}
         />
 
-        <ItemAddForm />
+        <ItemAddForm addItem={this.addItem} />
       </div>
     );
   }
