@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { nanoid } from 'nanoid';
+
 import AppHeader from "../app-header/app-header";
 import SearchPanel from "../search-panel/search-panel";
 import TodoList from "../todo-list/todo-list";
@@ -11,14 +13,21 @@ export default class App extends Component {
   constructor() {
     super();
 
-    this.generateId = 100;
+    this.createItem = (label) => {
+      return {
+        label: label,
+        done: false,
+        important: false,
+        id: nanoid()
+      }
+    };
 
     this.state = {
       todoData: [
-        { label: "Drink Coffee", important: false, id: 1 },
-        { label: "Make Awesome App", important: true, id: 2 },
-        { label: "Have a lunch", important: false, id: 3 },
-      ],
+        this.createItem("Drink Coffee"),
+        this.createItem("Make Awesome App"),
+        this.createItem("Have a lunch")
+      ]
     };
 
     this.deleteItem = (id) => {
@@ -37,24 +46,41 @@ export default class App extends Component {
     this.addItem = (text) => {
       this.setState(({ todoData }) => {
         return {
-          todoData: [
-            ...todoData,
-            {
-              label: text,
-              important: false,
-              id: this.generateId++
-            }
-          ]
+          todoData: [...todoData, this.createItem(text)]
         };
       });
     };
 
     this.onDoneToggle = (id) => {
-      console.log(id);
+      this.setState(({ todoData }) => {
+        const index = todoData.findIndex((el) => el.id === id);
+        const oldItem = todoData[index];
+        const newItem = {...oldItem, done: !oldItem.done};
+
+        return {
+          todoData: [
+            ...todoData.slice(0, index),
+            newItem,
+            ...todoData.slice(index + 1)
+          ]
+        }
+      });
     }
 
     this.onImportantToggle = (id) => {
-      console.log(id);
+      this.setState(({ todoData }) => {
+        const index = todoData.findIndex((el) => el.id === id);
+        const oldItem = todoData[index];
+        const newItem = {...oldItem, important: !oldItem.important};
+        
+        return {
+          todoData: [
+            ...todoData.slice(0, index),
+            newItem,
+            ...todoData.slice(index + 1)
+          ]
+        }
+      });
     }
   }
 
