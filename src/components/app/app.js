@@ -10,17 +10,8 @@ import ItemAddForm from "../item-add-form/item-add-form";
 import "./app.css";
 
 export default class App extends Component {
-  constructor() {
-    super();
-
-    this.createItem = (label) => {
-      return {
-        label: label,
-        done: false,
-        important: false,
-        id: nanoid(),
-      };
-    };
+  constructor(props) {
+    super(props);
 
     this.state = {
       todoData: [
@@ -28,61 +19,70 @@ export default class App extends Component {
         this.createItem("Make Awesome App"),
         this.createItem("Have a lunch"),
       ],
-    };
-
-    this.deleteItem = (id) => {
-      this.setState(({ todoData }) => {
-        const index = todoData.findIndex((el) => el.id === id);
-        const updated = [
-          ...todoData.slice(0, index),
-          ...todoData.slice(index + 1),
-        ];
-        return {
-          todoData: updated,
-        };
-      });
-    };
-
-    this.addItem = (text) => {
-      this.setState(({ todoData }) => {
-        return {
-          todoData: [...todoData, this.createItem(text)],
-        };
-      });
-    };
-
-    this.onDoneToggle = (id) => {
-      this.setState(({ todoData }) => {
-        const index = todoData.findIndex((el) => el.id === id);
-        const oldItem = todoData[index];
-        const newItem = { ...oldItem, done: !oldItem.done };
-
-        return {
-          todoData: [
-            ...todoData.slice(0, index),
-            newItem,
-            ...todoData.slice(index + 1),
-          ],
-        };
-      });
-    };
-
-    this.onImportantToggle = (id) => {
-      this.setState(({ todoData }) => {
-        const index = todoData.findIndex((el) => el.id === id);
-        const oldItem = todoData[index];
-        const newItem = { ...oldItem, important: !oldItem.important };
-
-        return {
-          todoData: [
-            ...todoData.slice(0, index),
-            newItem,
-            ...todoData.slice(index + 1),
-          ],
-        };
-      });
-    };
+    }
   }
+
+  createItem = (label) => {
+    return {
+      label: label,
+      done: false,
+      important: false,
+      id: nanoid(),
+    };
+  };
+
+  deleteItem = (id) => {
+    this.setState(({ todoData }) => {
+      const index = todoData.findIndex((el) => el.id === id);
+      const updated = [
+        ...todoData.slice(0, index),
+        ...todoData.slice(index + 1),
+      ];
+      return {
+        todoData: updated,
+      };
+    });
+  };
+
+  addItem = (text) => {
+    this.setState(({ todoData }) => {
+      return {
+        todoData: [...todoData, this.createItem(text)],
+      };
+    });
+  };
+
+  onDoneToggle = (id) => {
+    this.setState(({ todoData }) => {
+      const index = todoData.findIndex((el) => el.id === id);
+      const oldItem = todoData[index];
+      const newItem = { ...oldItem, done: !oldItem.done };
+
+      return {
+        todoData: [
+          ...todoData.slice(0, index),
+          newItem,
+          ...todoData.slice(index + 1),
+        ],
+      };
+    });
+  };
+
+  onImportantToggle = (id) => {
+    this.setState(({ todoData }) => {
+      const index = todoData.findIndex((el) => el.id === id);
+      const oldItem = todoData[index];
+      const newItem = { ...oldItem, important: !oldItem.important };
+
+      return {
+        todoData: [
+          ...todoData.slice(0, index),
+          newItem,
+          ...todoData.slice(index + 1),
+        ],
+      };
+    });
+  };
 
   render() {
     const { todoData } = this.state;
